@@ -5,7 +5,7 @@ from langchain.chat_models import ChatOpenAI
 from langchain import OpenAI, LLMChain
 from langchain.prompts import PromptTemplate
 
-#import openai
+import os
 import argparse
 import asyncio
 
@@ -116,8 +116,15 @@ async def main():
     parser.add_argument('--config_file', type=str, default='config.txt', help='Path to configuration file')
     args = parser.parse_args()
 
+    # Get the path of the executable file
+    exe_path = os.path.abspath(__file__)
+    # Get the directory where the executable file is located
+    exe_dir = os.path.dirname(exe_path)
+    # Get the path of the config file relative to the executable file directory
+    config_path = os.path.join(exe_dir, args.config_file)
+
     # Read the configuration file
-    with open(args.config_file) as f:
+    with open(config_path, 'r', encoding='utf-8') as f:
         config = {}
         for line in f:
             key, value = line.strip().split('=')
